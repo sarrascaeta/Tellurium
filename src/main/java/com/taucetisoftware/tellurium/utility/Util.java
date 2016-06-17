@@ -28,7 +28,17 @@ public class Util {
 		return generateRandomPassword(10);
 	}
 
+<<<<<<< HEAD
 	public static String generateRandomPassword(int passwordLength) {
 		return RandomStringUtils.randomAlphanumeric(passwordLength) + ".!";
 	}
+=======
+    public static void sleep(int sleepTime) {
+		try {
+			Thread.sleep(sleepTime);
+		} catch (InterruptedException e) {
+			System.err.println(e.getMessage());
+		}
+    }
+>>>>>>> d9cd1b5a00e73d4ea1d8d3ac0ba78d080a0fac1d
 }
