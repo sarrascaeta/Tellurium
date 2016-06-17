@@ -1,20 +1,21 @@
 import com.taucetisoftware.tellurium.Tellurium;
 import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.By;
+
+import static com.taucetisoftware.tellurium.Selector.css;
 
 /**
  * Created by Sergio on 6/2/2016.
  */
 public class TelluriumTests {
 
-    @Test
-    public void testSleep() {
-	long startTime = System.currentTimeMillis();
+    @Test (expected=RuntimeException.class)
+	public void testClick_NoDriver() {
+		Tellurium t = new Tellurium();
 
-	new Tellurium().sleep(1000);
+		t.click(css("Some CSS"));
+	}
 
-	long nowTime = System.currentTimeMillis();
 
-	Assert.assertTrue(nowTime > (startTime + 999));
-    }
 }
