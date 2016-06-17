@@ -6,10 +6,10 @@ package com.taucetisoftware.tellurium.utility;
 public class Util {
 
     public static void sleep(int sleepTime) {
-	try {
-	    Thread.sleep(sleepTime);
-	} catch (InterruptedException e) {
-	    System.err.println(e.getMessage());
-	}
+		try {
+			Thread.sleep(sleepTime);
+		} catch (InterruptedException e) {
+			System.err.println(e.getMessage());
+		}
     }
 }
