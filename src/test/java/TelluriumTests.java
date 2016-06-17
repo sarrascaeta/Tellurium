@@ -1,5 +1,3 @@
-package com.taucetisoftware.tellurium.test;
-
 import com.taucetisoftware.tellurium.Tellurium;
 import org.junit.Assert;
 import org.junit.Test;

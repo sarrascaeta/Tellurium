@@ -21,14 +21,7 @@ public class Selector {
     }
 
     public static By name(String name) {
-        return By.id(name);
-    }
-
-
-    public WebDriver css(String cssSelector) {
-        By css = By.cssSelector("cssSelector");
-
-        waitFor(css);
+        return By.name(name);
     }
 
     private void waitFor(By css) {
