@@ -8,14 +8,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class Util {
 	public static String passwordSuffix = ".!";
 
-	public static void sleep(int sleepTime) {
-		try {
-			Thread.sleep(sleepTime);
-		} catch (InterruptedException e) {
-			System.err.println(e.getMessage());
-		}
-	}
-
 	public static String generateRandomUsername() {
 		return generateRandomUsername(10);
 	}
@@ -28,11 +20,10 @@ public class Util {
 		return generateRandomPassword(10);
 	}
 
-<<<<<<< HEAD
 	public static String generateRandomPassword(int passwordLength) {
 		return RandomStringUtils.randomAlphanumeric(passwordLength) + ".!";
 	}
-=======
+
     public static void sleep(int sleepTime) {
 		try {
 			Thread.sleep(sleepTime);
@@ -40,5 +31,4 @@ public class Util {
 			System.err.println(e.getMessage());
 		}
     }
->>>>>>> d9cd1b5a00e73d4ea1d8d3ac0ba78d080a0fac1d
 }

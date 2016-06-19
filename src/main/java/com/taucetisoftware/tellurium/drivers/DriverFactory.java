@@ -1,10 +1,16 @@
 package com.taucetisoftware.tellurium.drivers;
 
+import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.MarionetteDriverManager;
+import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.MarionetteDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * Created by Sergio on 6/16/2016.
@@ -22,19 +28,24 @@ public class DriverFactory {
     }
 
     public static WebDriver createFirefoxDriver(FirefoxProfile profile) {
+        MarionetteDriverManager.getInstance().setup();
+
         if (profile == null) {
             profile = new FirefoxProfile();
         }
 
-        return new FirefoxDriver(profile);
+        DesiredCapabilities dc = DesiredCapabilities.firefox();
+        dc.setCapability(FirefoxDriver.PROFILE, profile);
+
+        return new MarionetteDriver(dc);
     }
 
     public static WebDriver createChromeDriver() {
-        createChromeDriver(null);
+        return createChromeDriver(null);
     }
 
     public static WebDriver createChromeDriver(ChromeOptions options) {
-        checkForDriverLocation();
+        ChromeDriverManager.getInstance().setup();
 
         if (options == null) {
             options = new ChromeOptions();
@@ -52,5 +63,13 @@ public class DriverFactory {
 
     public void setChromeDriverLocation(String chromeDriverLocation) {
         this.chromeDriverLocation = chromeDriverLocation;
+    }
+
+    //TODO add more browsers and configurable options
+
+    public static WebDriver createPhantomDriver() {
+        PhantomJsDriverManager.getInstance().setup();
+
+        return new PhantomJSDriver();
     }
 }
