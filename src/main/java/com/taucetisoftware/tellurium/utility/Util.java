@@ -8,22 +8,50 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class Util {
 	public static String passwordSuffix = ".!";
 
+	/**
+	 * Like {@link #generateRandomUsername(int)} but will default to a 10-character username
+	 *
+	 * @return
+	 */
 	public static String generateRandomUsername() {
 		return generateRandomUsername(10);
 	}
 
+	/**
+	 * Generates a random username made up of random letters in both lower/upper case
+	 *
+	 * @param usernameLength how long the random username should be
+	 * @return the randomly generated username
+	 */
 	public static String generateRandomUsername(int usernameLength) {
 		return RandomStringUtils.randomAlphabetic(usernameLength);
 	}
 
+
+	/**
+	 * Like {@link #generateRandomPassword(int)} but will default to a password 10-characters long
+	 * @return
+	 */
 	public static String generateRandomPassword() {
 		return generateRandomPassword(10);
 	}
 
+	/**
+	 * Generates a random password made up of random letters and numbers. The password will
+	 * be prefixed by these chars to meet typical password requirements: .!
+	 *
+	 * @param passwordLength the length of the password
+	 * @return the randomly generated password
+	 */
 	public static String generateRandomPassword(int passwordLength) {
 		return RandomStringUtils.randomAlphanumeric(passwordLength) + ".!";
 	}
 
+	/**
+	 * Wait for the specified amount of milliseconds
+	 *
+	 * @param sleepTime how long to sleep
+	 */
     public static void sleep(int sleepTime) {
 		try {
 			Thread.sleep(sleepTime);

@@ -1,6 +1,7 @@
 package com.taucetisoftware.tellurium.drivers;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
+import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
 import io.github.bonigarcia.wdm.MarionetteDriverManager;
 import io.github.bonigarcia.wdm.PhantomJsDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.MarionetteDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -19,7 +21,7 @@ public class DriverFactory {
     private static String chromeDriverLocation;
 
     /**
-     * Creates a standard Firefox driver with a new profile
+     * Creates a standard Firefox webdriver
      *
      * @return Firefox driver
      */
@@ -27,6 +29,12 @@ public class DriverFactory {
         return createFirefoxDriver(null);
     }
 
+	/**
+     * Creates a Firefox driver with the specified Firefox profile
+     *
+     * @param profile the desired profile to use
+     * @return Firefox WebDriver with the specified profile
+     */
     public static WebDriver createFirefoxDriver(FirefoxProfile profile) {
         MarionetteDriverManager.getInstance().setup();
 
@@ -40,10 +48,21 @@ public class DriverFactory {
         return new MarionetteDriver(dc);
     }
 
+	/**
+     * Creates a standard Chrome webdriver
+     *
+     * @return Chrome webdriver
+     */
     public static WebDriver createChromeDriver() {
         return createChromeDriver(null);
     }
 
+	/**
+     * Creates a Chrome driver with specified chrome options
+     *
+     * @param options the desired Chrome options
+     * @return Chrome WebDriver with the specified chrome options
+     */
     public static WebDriver createChromeDriver(ChromeOptions options) {
         ChromeDriverManager.getInstance().setup();
 
@@ -54,19 +73,26 @@ public class DriverFactory {
         return new ChromeDriver(options);
     }
 
-    private static void checkForDriverLocation() {
-        if (chromeDriverLocation.isEmpty()) {
-            throw new RuntimeException("Location of chromedriver.exe has not been specified. " +
-                    "\nSpecify file location with setChromeDriverLocation()");
-        }
+	/**
+     * Creates a standard IE webdriver
+     *
+     * @return IE webdriver
+     */
+    public static WebDriver createIEDriver() {
+        InternetExplorerDriverManager.getInstance().setup();
+
+        return new InternetExplorerDriver();
     }
 
-    public void setChromeDriverLocation(String chromeDriverLocation) {
-        this.chromeDriverLocation = chromeDriverLocation;
-    }
 
     //TODO add more browsers and configurable options
 
+
+	/**
+	 * Creates a PhantomJS webdriver. PhantomJS is a "headless" browser that runs in the background with no visible GUI
+     *
+     * @return PhantomJS webdriver
+     */
     public static WebDriver createPhantomDriver() {
         PhantomJsDriverManager.getInstance().setup();
 

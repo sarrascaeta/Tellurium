@@ -53,6 +53,15 @@ public class DriverTests {
 		assertDriver("Phantom");
 	}
 
+	@Test
+	public void testIEDriver() {
+		driver = DriverFactory.createIEDriver();
+
+		Assert.assertTrue(driver.toString().contains("internet explorer"));
+	}
+
+
+
 	private void assertDriver(String browserName) {
 		String driverName = driver.toString().toLowerCase();
 		Assert.assertTrue(driverName.contains(browserName.toLowerCase()));
