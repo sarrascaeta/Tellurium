@@ -47,4 +47,23 @@ public class Selector {
     public static By name(String name) {
         return By.name(name);
     }
+
+	/**
+	 * returns a partial link text locator
+	 *
+	 * @param partialLinkText the partial text of the link
+	 * @return the locator
+	 */
+	public static By partialLinkText(String partialLinkText) {
+		return By.partialLinkText(partialLinkText);
+	}
+
+	/**
+	 * returns a link text locator
+	 * @param linkText the text of te link
+	 * @return the linktext locator
+	 */
+	public static By linkText(String linkText) {
+		return By.linkText(linkText);
+	}
 }

@@ -1,10 +1,7 @@
 import com.taucetisoftware.tellurium.Tellurium;
 import com.taucetisoftware.tellurium.drivers.DriverFactory;
 import org.junit.*;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
-import static com.taucetisoftware.tellurium.Selector.css;
 
 /**
  * Created by Sergio on 6/2/2016.
@@ -27,19 +24,44 @@ public class TelluriumTests extends Tellurium {
 	public void assignCorrectDriver() {
 		driver = tempWebDriver;
 		setGlobalWaitTime(5);
+
+		goToGoogle();
 	}
 
 	@Test
-	public void testClick() {
-		goToGoogle();
+	public void testCssClick() {
 		click(css("a[href*='about.html']"));
 
-		Assert.assertTrue(getTitle().toLowerCase().contains("about google"));
+		assertAboutGoogle();
 	}
+
+
+	@Test
+	public void testXpathClick() {
+		click(xpath("//a[contains(@href, 'about.html')]"));
+
+		assertAboutGoogle();
+	}
+
+	@Test
+	public void testPartialLinkTextClick() {
+		click(partialLinkText("Abou"));
+
+		assertAboutGoogle();
+	}
+
+	@Test
+	public void testLinkTextClick() {
+		goTo("https://www.google.com/search?q=wikipedia");
+		click(linkText("Wikipedia"));
+
+		Assert.assertTrue(getUrl().contains("wikipedia"));
+	}
+
+
 
 	@Test
 	public void testGo() {
-		goToGoogle();
 		Assert.assertTrue(getUrl().contains("google"));
 	}
 
@@ -51,13 +73,11 @@ public class TelluriumTests extends Tellurium {
 
 	@Test
 	public void testGetTitle() {
-		goToGoogle();
 		Assert.assertTrue(getTitle().toLowerCase().contains("google"));
 	}
 
 	@Test
 	public void testGetSource() {
-		goToGoogle();
 		Assert.assertTrue(getPageSource().contains("</html>") && getPageSource().contains("</body>"));
 	}
 
@@ -68,7 +88,6 @@ public class TelluriumTests extends Tellurium {
 
 	@Test
 	public void testRefresh() {
-		goToGoogle();
 		refresh();
 		Assert.assertTrue(getUrl().contains("google"));
 	}
@@ -82,20 +101,25 @@ public class TelluriumTests extends Tellurium {
 
 	@Test
 	public void executeJs(){
-		goToGoogle();
+		if (driver.toString().toLowerCase().contains("phantom"))
+			return;
+
 		executeJavascript("window.location.href = 'http://github.com';");
-		sleep(2000);
-		Assert.assertTrue(getUrl().contains("microsoft"));
+		sleep(1000);
+		Assert.assertTrue(getUrl().contains("github.com"));
 	}
 
 	private void goBackToGoogle() {
-		goToGoogle();
-		go("http://www.microsoft.com");
+		goTo("http://www.microsoft.com");
 		goBack();
 		Assert.assertTrue(getUrl().contains("google"));
 	}
 
 	private void goToGoogle() {
-		go("http://www.google.com");
+		goTo("http://www.google.com");
+	}
+
+	private void assertAboutGoogle() {
+		Assert.assertTrue(getTitle().toLowerCase().contains("about google"));
 	}
 }
