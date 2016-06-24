@@ -36,6 +36,20 @@ public class SelectorTests {
         assertBy(element, "By.name");
     }
 
+    @Test
+    public void testLinkText() {
+        By element = Selector.linkText("Test");
+
+        assertBy(element, "By.linkText");
+    }
+
+    @Test
+    public void testPartialLinkText() {
+        By element = Selector.partialLinkText("Test");
+
+        assertBy(element, "By.partialLinkText");
+    }
+
     private void assertBy(By element, String selectorType) {
         Assert.assertTrue(element instanceof  By);
         Assert.assertTrue(element.toString().contains(selectorType));
