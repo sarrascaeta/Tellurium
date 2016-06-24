@@ -39,9 +39,9 @@ public class Tellurium extends Selector {
 	/**
      * Goes to a specified URL
      *
-     * @param url the URL to go to
+     * @param url the URL to goTo to
      */
-    public void go(String url) {
+    public void goTo(String url) {
         driver.get(url);
     }
 
