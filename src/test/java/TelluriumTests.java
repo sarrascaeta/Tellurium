@@ -52,7 +52,7 @@ public class TelluriumTests extends Tellurium {
 
 	@Test
 	public void testLinkTextClick() {
-		goTo("https://www.google.com/search?q=wikipedia");
+		go("https://www.google.com/search?q=wikipedia");
 		click(linkText("Wikipedia"));
 
 		Assert.assertTrue(getUrl().contains("wikipedia"));
@@ -110,13 +110,13 @@ public class TelluriumTests extends Tellurium {
 	}
 
 	private void goBackToGoogle() {
-		goTo("http://www.microsoft.com");
+		go("http://www.microsoft.com");
 		goBack();
 		Assert.assertTrue(getUrl().contains("google"));
 	}
 
 	private void goToGoogle() {
-		goTo("http://www.google.com");
+		go("http://www.google.com");
 	}
 
 	private void assertAboutGoogle() {
