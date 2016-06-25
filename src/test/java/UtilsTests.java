@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -49,6 +51,23 @@ public class UtilsTests {
 	public void testGetDesktopPath() {
 		String s = Util.getDesktopPath();
 		Assert.assertTrue(s.contains(":") && s.contains("/Desktop"));
+	}
+
+	@Test
+	public void testDefaultTimestamp() {
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("hhmmss-MMddyyyy");
+
+		Assert.assertTrue(Util.getTimestamp().equals(format.format(date)));
+	}
+
+	@Test
+	public void testCustomTimestamp() {
+		String s = "MMddyyyy";
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat(s);
+
+		Assert.assertTrue(Util.getTimestamp(s).equals(format.format(date)));
 	}
 
 

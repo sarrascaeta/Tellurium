@@ -2,6 +2,9 @@ package com.taucetisoftware.tellurium.utility;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Sergio on 6/2/2016.
  */
@@ -62,6 +65,17 @@ public class Util {
 
 	public static String getDesktopPath() {
 		return System.getProperty("user.home") + "/Desktop";
+	}
+
+	public static String getTimestamp() {
+		return getTimestamp("hhmmss-MMddyyyy");
+	}
+
+	public static String getTimestamp(String format) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+		return sdf.format(date);
 	}
 
 }
