@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by Sergio on 6/2/2016.
  */
-public class TelluriumTests extends Tellurium {
+public class TelluriumTests extends TestCore {
 	private static WebDriver tempWebDriver;
 
 	@BeforeClass
@@ -109,17 +109,4 @@ public class TelluriumTests extends Tellurium {
 		Assert.assertTrue(getUrl().contains("github.com"));
 	}
 
-	private void goBackToGoogle() {
-		goTo("http://www.microsoft.com");
-		goBack();
-		Assert.assertTrue(getUrl().contains("google"));
-	}
-
-	private void goToGoogle() {
-		goTo("http://www.google.com");
-	}
-
-	private void assertAboutGoogle() {
-		Assert.assertTrue(getTitle().toLowerCase().contains("about google"));
-	}
 }

@@ -1,6 +1,7 @@
 package com.taucetisoftware.tellurium;
 
 import com.taucetisoftware.tellurium.utility.Util;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -114,7 +116,7 @@ public class Tellurium extends Selector {
      * @param elementToClick the locator of the element to click
      */
     public void click(By elementToClick) {
-        WebElement webElement = createWebElement(elementToClick);
+        WebElement webElement = findElement(elementToClick);
         webElement.click();
     }
 
@@ -126,7 +128,7 @@ public class Tellurium extends Selector {
      * @param charSequence the text/keys to send. {@see selenium.webdriver.common.keys.Keys}
      */
     public void sendTo(By elementToSendTo, boolean isClearing, CharSequence... charSequence) {
-        WebElement webElement = createWebElement(elementToSendTo);
+        WebElement webElement = findElement(elementToSendTo);
 
         if (isClearing)
             webElement.clear();
@@ -144,14 +146,28 @@ public class Tellurium extends Selector {
     }
 
 
-    private WebElement createWebElement(By elementToClick) {
-        waitFor(elementToClick);
+    public WebElement findElement(By locator) {
+        waitFor(locator);
 
+        checkDriver();
+
+        return driver.findElement(locator);
+    }
+
+
+    public List<WebElement> findElements(By locator) {
+        waitFor(locator);
+
+        checkDriver();
+
+        return driver.findElements(locator);
+    }
+
+
+    private void checkDriver() {
         if (driver == null) {
             throw new RuntimeException("WebDriver is null! Create a webdriver and assign it with: setDriver()");
         }
-
-        return driver.findElement(elementToClick);
     }
 
 	/**
@@ -192,5 +208,81 @@ public class Tellurium extends Selector {
      */
     public void sleep(int sleepTime) {
 	    Util.sleep(sleepTime);
+    }
+
+    public boolean elementExists(By locator) {
+        if (findElements(locator).size() != 0)
+            return true;
+        else
+            return false;
+    }
+
+    public String getTextFrom(By locator) {
+        WebElement element = findElement(locator);
+
+        return element.getText();
+    }
+
+    public void verifyElement(By locator) {
+        waitFor(locator);
+
+        Assert.assertTrue("Element " + locator + " was not found.", elementExists(locator));
+    }
+
+    public void verifyElementText(By locator, String textToCheck) {
+        waitFor(locator);
+
+        String s = getTextFrom(locator);
+
+        Assert.assertTrue(
+                "The text \"" + textToCheck +"\" was not found in " + locator.toString(),
+                textToCheck.trim().toLowerCase().equals(s.toLowerCase().trim())
+                );
+    }
+
+    public void verifyElementContains(By locator, String textToCheck) {
+        waitFor(locator);
+
+        String s = getTextFrom(locator);
+
+        Assert.assertTrue(
+                "The text \"" + textToCheck +"\" was not found in " + locator.toString(),
+                s.trim().toLowerCase().contains(textToCheck.trim().toLowerCase())
+        );
+    }
+
+    public void verifyUrlContains(String textInUrl) {
+        String s = getUrl();
+
+        Assert.assertTrue(
+                "The text \"" + textInUrl + "\" was not found in URL " + s,
+                s.contains(textInUrl.trim().toLowerCase())
+                );
+    }
+
+    public void verifyTitle(String titleToCheck) {
+        String s = getTitle();
+
+        Assert.assertTrue(
+                "The text \"" + titleToCheck + "\" was not found in the page title \"" + s + "\"",
+                s.trim().toLowerCase().equals(titleToCheck.trim().toLowerCase())
+
+        );
+    }
+
+    public void verifyTitleContains(String textToCheck) {
+        String s = getTitle();
+
+        Assert.assertTrue(
+                "The text \"" + textToCheck + "\" was not found in the page title \"" + s + "\"",
+                s.trim().toLowerCase().contains(textToCheck.trim().toLowerCase())
+                );
+    }
+
+    public void verifyElementNotPresent(By locator) {
+        Assert.assertTrue(
+                "The element " + locator.toString() + " was found on the page",
+                driver.findElements(locator).size() == 0
+                );
     }
 }
