@@ -1,6 +1,7 @@
 import com.taucetisoftware.tellurium.Tellurium;
 import com.taucetisoftware.tellurium.drivers.DriverFactory;
 import org.junit.*;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
@@ -139,13 +140,14 @@ public class TelluriumTests extends TestCore {
 		selectWithString("العربية");
 	}
 
-	private void selectWithString(String valueOrText) {
-		goTo("https://www.wikipedia.org");
+	@Test
+	public void testScrollToBottom() {
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		Long scrollPos = (Long) executor.executeScript("return window.scrollY;");
 
-		select(id("searchLanguage"), valueOrText);
-		click(css("button.pure-button-primary-progressive"));
-
-		verifyUrlContains("ar.wikipedia");
+		Assert.assertTrue(scrollPos > 0);
 	}
+
+
 
 }

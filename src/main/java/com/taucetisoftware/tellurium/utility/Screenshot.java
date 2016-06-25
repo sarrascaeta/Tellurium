@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +13,15 @@ import java.io.IOException;
  * Created by Sergio on 6/25/2016.
  */
 public class Screenshot {
+    private static String lastScreenshotFilepath;
 
     public static void take(WebDriver driver) {
-        take(driver, generateScreenshotName(driver));
+        take(driver, generateScreenshotFilepath(driver));
     }
 
-    private static String generateScreenshotName(WebDriver driver) {
-        String path = Util.getDesktopPath() + "/Selenium Screenshots/";
-        String name = generateNameFromUrl(driver.getCurrentUrl());
+    private static String generateScreenshotFilepath(WebDriver driver) {
+        String path = getDefaultScreenshotPath();
+        String name = generateName(driver.getCurrentUrl());
 
         name = shortenNameIfNeeded(name);
         return path + name;
@@ -40,6 +42,7 @@ public class Screenshot {
 
         saveScreenshotToFile(screenshotLocation, scrFile);
 
+        lastScreenshotFilepath = screenshotLocation;
         System.out.println("Screenshot saved! " + screenshotLocation);
     }
 
@@ -66,12 +69,25 @@ public class Screenshot {
         return screenshotLocation;
     }
 
-    private static String generateNameFromUrl(String url){
+    private static String generateName(String url){
         String uniqueName = url.replace("://", "_").replace(".", "_").replace("/", "_");
 
         // Replace last UNDERSCORE with a DOT
         uniqueName = uniqueName.substring(0,uniqueName.lastIndexOf('_'))
                 +"."+uniqueName.substring(uniqueName.lastIndexOf('_')+1,uniqueName.length());
-        return uniqueName;
+
+        return uniqueName + Util.getTimestamp();
+    }
+
+    public static String getDefaultScreenshotPath() {
+        return Util.getDesktopPath() + "/Selenium Screenshots/";
+    }
+
+    public static String getLastScreenshotFilepath() {
+        return lastScreenshotFilepath;
+    }
+
+    public static String getAutomaticName(WebDriver driver) {
+        return generateName(driver.getCurrentUrl());
     }
 }

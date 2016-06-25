@@ -21,4 +21,13 @@ public abstract class TestCore extends Tellurium {
     protected void assertAboutGoogle() {
         Assert.assertTrue(getTitle().toLowerCase().contains("about google"));
     }
+
+    protected void selectWithString(String valueOrText) {
+        goTo("https://www.wikipedia.org");
+
+        select(id("searchLanguage"), valueOrText);
+        click(css("button.pure-button-primary-progressive"));
+
+        verifyUrlContains("ar.wikipedia");
+    }
 }
