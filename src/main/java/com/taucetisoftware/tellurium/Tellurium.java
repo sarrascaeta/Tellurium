@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -215,6 +216,25 @@ public class Tellurium extends Selector {
             return true;
         else
             return false;
+    }
+
+    public void select(By locator, int index) {
+        waitFor(locator);
+
+        WebElement e = findElement(locator);
+        new Select(e).selectByIndex(index);
+    }
+
+    public void select(By locator, String valueOrText) {
+        waitFor(locator);
+
+        WebElement we = findElement(locator);
+
+        try {
+            new Select(we).selectByValue(valueOrText);
+        } catch (Exception e) {
+            new Select(we).selectByVisibleText(valueOrText);
+        }
     }
 
     public String getTextFrom(By locator) {

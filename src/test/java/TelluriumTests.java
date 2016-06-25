@@ -1,6 +1,7 @@
 import com.taucetisoftware.tellurium.Tellurium;
 import com.taucetisoftware.tellurium.drivers.DriverFactory;
 import org.junit.*;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -107,6 +108,44 @@ public class TelluriumTests extends TestCore {
 		executeJavascript("window.location.href = 'http://github.com';");
 		sleep(1000);
 		Assert.assertTrue(getUrl().contains("github.com"));
+	}
+
+	@Test
+	public void sendTest() {
+		goTo("https://www.wikipedia.org");
+
+		sendTo(id("searchInput"), "selenium", Keys.ENTER);
+
+		verifyElement(id("firstHeading"));
+	}
+
+	@Test
+	public void selectIndexTest() {
+		goTo("https://www.wikipedia.org");
+
+		select(id("searchLanguage"), 0);
+		click(css("button.pure-button-primary-progressive"));
+
+		verifyUrlContains("ar.wikipedia");
+	}
+
+	@Test
+	public void selectValueTest() {
+		selectWithString("ar");
+	}
+
+	@Test
+	public void selectVisibleTextTest() {
+		selectWithString("العربية");
+	}
+
+	private void selectWithString(String valueOrText) {
+		goTo("https://www.wikipedia.org");
+
+		select(id("searchLanguage"), valueOrText);
+		click(css("button.pure-button-primary-progressive"));
+
+		verifyUrlContains("ar.wikipedia");
 	}
 
 }
