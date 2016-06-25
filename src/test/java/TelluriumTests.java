@@ -1,12 +1,13 @@
 import com.taucetisoftware.tellurium.Tellurium;
 import com.taucetisoftware.tellurium.drivers.DriverFactory;
 import org.junit.*;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
 /**
  * Created by Sergio on 6/2/2016.
  */
-public class TelluriumTests extends Tellurium {
+public class TelluriumTests extends TestCore {
 	private static WebDriver tempWebDriver;
 
 	@BeforeClass
@@ -109,17 +110,42 @@ public class TelluriumTests extends Tellurium {
 		Assert.assertTrue(getUrl().contains("github.com"));
 	}
 
-	private void goBackToGoogle() {
-		goTo("http://www.microsoft.com");
-		goBack();
-		Assert.assertTrue(getUrl().contains("google"));
+	@Test
+	public void sendTest() {
+		goTo("https://www.wikipedia.org");
+
+		sendTo(id("searchInput"), "selenium", Keys.ENTER);
+
+		verifyElement(id("firstHeading"));
 	}
 
-	private void goToGoogle() {
-		goTo("http://www.google.com");
+	@Test
+	public void selectIndexTest() {
+		goTo("https://www.wikipedia.org");
+
+		select(id("searchLanguage"), 0);
+		click(css("button.pure-button-primary-progressive"));
+
+		verifyUrlContains("ar.wikipedia");
 	}
 
-	private void assertAboutGoogle() {
-		Assert.assertTrue(getTitle().toLowerCase().contains("about google"));
+	@Test
+	public void selectValueTest() {
+		selectWithString("ar");
 	}
+
+	@Test
+	public void selectVisibleTextTest() {
+		selectWithString("العربية");
+	}
+
+	private void selectWithString(String valueOrText) {
+		goTo("https://www.wikipedia.org");
+
+		select(id("searchLanguage"), valueOrText);
+		click(css("button.pure-button-primary-progressive"));
+
+		verifyUrlContains("ar.wikipedia");
+	}
+
 }
