@@ -59,4 +59,9 @@ public class Util {
 			System.err.println(e.getMessage());
 		}
     }
+
+	public static String getDesktopPath() {
+		return System.getProperty("user.home") + "/Desktop";
+	}
+
 }

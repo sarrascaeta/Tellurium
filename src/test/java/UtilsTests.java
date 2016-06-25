@@ -45,5 +45,11 @@ public class UtilsTests {
 		return StringUtils.isAlphanumeric(s.replace(Util.passwordSuffix, ""));
 	}
 
+	@Test
+	public void testGetDesktopPath() {
+		String s = Util.getDesktopPath();
+		Assert.assertTrue(s.contains(":") && s.contains("/Desktop"));
+	}
+
 
 }
