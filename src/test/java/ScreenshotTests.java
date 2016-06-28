@@ -62,4 +62,5 @@ public class ScreenshotTests extends TestCore {
     private String getTempLocation() {
         return System.getProperty("java.io.tmpdir");
     }
+
 }
