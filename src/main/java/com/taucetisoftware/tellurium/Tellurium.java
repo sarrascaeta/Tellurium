@@ -187,8 +187,12 @@ public class Tellurium extends Selector {
      * @param secondsToWait how long to wait, in seconds
      */
     public void waitFor(By elementToWaitFor, int secondsToWait) {
-        WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
-        wait.until(ExpectedConditions.elementToBeClickable(elementToWaitFor));
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(elementToWaitFor));
+        } catch (Exception e) {
+
+        }
     }
 
 	/**
